@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"example.com/db"
@@ -41,14 +42,18 @@ func GetAllEvents() ([]Event, error) {
 	query := "SELECT * FROM events"
 	rows, err := db.DB.Query(query)
 	if err != nil {
+		fmt.Println("HERE 1 ==========================================")
+		fmt.Println(err)
 		return nil, err
 	}
 	defer rows.Close()
 	var events []Event
 	for rows.Next() {
 		var event Event
-		err := rows.Scan(&event.ID, &event.Name, &event.Location, &event.DateTime, &event.UserID)
+		err := rows.Scan(&event.ID, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
 		if err != nil {
+			fmt.Println("HERE 2 ==========================================")
+			fmt.Println(err)
 			return nil, err
 		}
 		events = append(events, event)
